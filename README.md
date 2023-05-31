@@ -34,6 +34,8 @@ Misc notes:
 - this is a m.v.p. and i am not good at coding so don't expect much
 
 Requrements:
+- Needs PyQt5 and spotipy python modules
+- Windows OS (i am using 11 but i don't see why it woudnt work on 7 and up)
 - Spotify premium account so you can create apps
 - Spotify Client Id and Secret to be placed in the Spotify-Access.txt file
   (https://developer.spotify.com/documentation/web-api/tutorials/getting-started)
