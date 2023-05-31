@@ -8,7 +8,6 @@ from PyQt5.QtWidgets import QApplication, QHBoxLayout, QLabel, QPushButton, QVBo
 
 # make sure main playlist is at the end
 playlists= {'tempPlaylist': 'YourPlaylistID', 'holdingPlaylist': 'YourPlaylistID', 'mainPlaylist': 'YourPlaylistID'}
-                #temp Songs | Short Snake | Worm on String
 
 userId= 'YourUserID'
 currentSong= {'name': 'none', 'id': 'none', 'origin': False}
