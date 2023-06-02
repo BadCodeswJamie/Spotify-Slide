@@ -5,6 +5,7 @@ rather than the multiple that spotify requires.
 (at least 2(more if you have playlist folders) to move song and two to delete song saving 3 clicks)
 
 Can move Songs directly into playlists without deleting from source if there is no source playlist e.g. from play queue
+Can delete songs from he 3 main playlists.
 
 Has a fail safe that if song doesn't move to destination it does not delete song from source playlist.
 
