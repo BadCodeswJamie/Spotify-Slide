@@ -15,10 +15,10 @@ currentSong= {'name': 'none', 'id': 'none', 'origin': False}
 def getSp(Id):
     scope = ['user-library-read', 'playlist-read-private', 'user-library-modify', 'user-read-currently-playing', 'playlist-modify-private', 'playlist-modify-public']
     def get_keys(): # returns client id, client secret
-        accessLoc= join(dirname(realpath(__file__)),'Spotify-Access.txt')
+        accessLoc= join(dirname(realpath(__file__)),'access.txt')
         if not exists(accessLoc):
             cid=input('File %s does not exist\nInput client id: ' % accessLoc)
-
+            secret=input('Input client secret: ' % accessLoc)
         else:
             with open(accessLoc,'r',encoding= 'utf-8') as keys:
                 keys= keys.readlines()
@@ -34,8 +34,11 @@ def getSp(Id):
         sp = spotipy.Spotify(client_credentials_manager=auth)
         test= sp.current_user_playlists(limit=1)
         print('got authentication')
+        window.changeStatusMsg('Got Auth')
     except:
         print('Auth failed')
+        window.changeColour('red')
+        window.changeStatusMsg('Auth Failed')
         return False
     return sp
 
@@ -96,13 +99,11 @@ class gui(QWidget):
 
     def __init__(self):
         super(gui, self).__init__()
-        # QApplication.font()
-        # self.resize(150,150)
         self.bgColour= 'none'
         self.layout= QVBoxLayout()
         self.layout.setAlignment(Qt.AlignCenter)
         
-        self.currentSong= QLabel(currentSong['name'])
+        self.currentSong= QLabel('Song Name')
         self.currentSong.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.currentSong)
 
@@ -122,15 +123,14 @@ class gui(QWidget):
 
         self.layout.addLayout(hLayout1)
 
-        self.statusMsg= ['None']
+        self.statusMsg= ['Status Message']
         self.status= QLabel('')
         self.status.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.status)
         
         self.setLayout(self.layout)
-        self.setWindowTitle("none")
+        self.setWindowTitle("Spotify Slide")
         
-        self.startUpdate()
         self.show()
 
     def changeColour(self, colour):
@@ -178,8 +178,10 @@ class Worker(QObject):
 
 # on Start
 if __name__ == '__main__':
-    sp= getSp(userId)
     app = QApplication([])
     window = gui()
     window.show()
+    sp= getSp(userId)
+    if sp != False:
+        window.startUpdate()
     app.exec()
