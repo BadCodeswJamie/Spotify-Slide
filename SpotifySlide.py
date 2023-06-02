@@ -93,12 +93,22 @@ def moveToPlaylist(playlist):
     window.changeColour('green')
     needToDelete()
 
+def removeSong():
+    if currentSong['origin'] in list(playlists.values()):
+        remFromPlaylist(currentSong['id'], currentSong['origin'])
+
+    else:
+        print('Song not in accessable playlist')
+        window.changeStatusMsg('Song not in accessable playlist')
 
 
 class gui(QWidget):
 
     def __init__(self):
         super(gui, self).__init__()
+
+        self.updateEnabled= True
+
         self.bgColour= 'none'
         self.layout= QVBoxLayout()
         self.layout.setAlignment(Qt.AlignCenter)
@@ -123,6 +133,10 @@ class gui(QWidget):
 
         self.layout.addLayout(hLayout1)
 
+        button4= QPushButton("Remove")
+        button4.clicked.connect(lambda event : removeSong())
+        self.layout.addWidget(button4)
+
         self.statusMsg= ['Status Message']
         self.status= QLabel('')
         self.status.setAlignment(Qt.AlignCenter)
@@ -131,6 +145,7 @@ class gui(QWidget):
         self.setLayout(self.layout)
         self.setWindowTitle("Spotify Slide")
         
+
         self.show()
 
     def changeColour(self, colour):
@@ -169,7 +184,7 @@ class Worker(QObject):
         super(Worker, self).__init__()
 
     def run(self):
-        while True:
+        while window.updateEnabled:
             updateCurrentSong()
             self.checked.emit()
             sleep(5)
